@@ -9,6 +9,9 @@ gem "rails", "~> 7.0.5"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
+gem 'rack-cors'
+
+
 # Use pg as the database for Active Record
 gem "pg"
 
