@@ -1,0 +1,2 @@
+class CultureType < ApplicationRecord
+end

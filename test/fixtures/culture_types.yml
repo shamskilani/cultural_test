@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  lower_end: 1
+  upper_end: 1
+
+two:
+  name: MyString
+  lower_end: 1
+  upper_end: 1

@@ -1,0 +1,2 @@
+class CultureTest < ApplicationRecord
+end

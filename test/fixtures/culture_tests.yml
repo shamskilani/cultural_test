@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  test_type: MyString
+  respondent_id: 1
+  answer_one: 1
+  answer_two: 1
+  answer_three: 1
+  answer_four: 1
+  answer_five: 1
+  answer_six: 1
+  answer_seven: 1
+  answer_eight: 1
+  result: 1
+  completed_at: 2023-06-21 16:52:00
+
+two:
+  test_type: MyString
+  respondent_id: 1
+  answer_one: 1
+  answer_two: 1
+  answer_three: 1
+  answer_four: 1
+  answer_five: 1
+  answer_six: 1
+  answer_seven: 1
+  answer_eight: 1
+  result: 1
+  completed_at: 2023-06-21 16:52:00
