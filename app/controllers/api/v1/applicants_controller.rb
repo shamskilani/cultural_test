@@ -1,6 +1,7 @@
 module Api
     module V1
       class ApplicantsController < ApplicationController
+        
         def create
           applicant = Applicant.new(applicant_params)
   
@@ -14,6 +15,12 @@ module Api
         def index
             applicants = Applicant.all
             render json: applicants
+        end
+
+        def matched
+          culture_type = params[:culture_type]
+          matched_applicants = Applicant.where(culture_type: culture_type)
+          render json: matched_applicants
         end
   
         private
