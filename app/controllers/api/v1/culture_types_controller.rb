@@ -17,7 +17,7 @@ module Api
         private
   
         def culture_type_params
-          params.require(:culture_type).permit(:name, :lower_end, :upper_end)
+          params.require(:culture_type).permit(:name)
         end
       end
     end

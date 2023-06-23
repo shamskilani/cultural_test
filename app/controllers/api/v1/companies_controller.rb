@@ -19,7 +19,7 @@ module Api
         private
   
         def company_params
-          params.require(:company).permit(:name, :city, :culture_type)
+          params.require(:company).permit(:name,:culture_type)
         end
       end
     end
