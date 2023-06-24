@@ -29,23 +29,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_125622) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "culture_tests", force: :cascade do |t|
-    t.string "test_type"
-    t.integer "respondent_id"
-    t.integer "answer_one"
-    t.integer "answer_two"
-    t.integer "answer_three"
-    t.integer "answer_four"
-    t.integer "answer_five"
-    t.integer "answer_six"
-    t.integer "answer_seven"
-    t.integer "answer_eight"
-    t.integer "result"
-    t.datetime "completed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "culture_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
