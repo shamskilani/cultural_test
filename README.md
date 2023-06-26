@@ -48,6 +48,12 @@ rails server --binding=0.0.0.0
 
 The server will start running on `http://localhost:3000`.
 
+### Running the Tests
+
+```
+rspec sspec/
+```
+
 ## API Endpoints
 
 The API provides the following endpoints for managing the Culture Matching application:
@@ -186,4 +192,340 @@ Model representing a culture type.
 - `name` (presence): Validates the presence of the name.
 
 
-This documentation provides an overview of the controllers and models, along with the actions, parameters, and responses for each controller action. It also outlines the validations applied to each model.
+```yaml
+openapi: 3.0.0
+info:
+  title: Culture Matching API
+  version: 1.0.0
+  description: Backend API for managing culture types in the Culture Matching application.
+paths:
+  /api/v1/culture_types:
+    post:
+      summary: Create a new culture type
+      description: Creates a new culture type in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CultureTypeInput'
+      responses:
+        '201':
+          description: Culture type created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CultureType'
+        '422':
+          description: Unprocessable Entity - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    get:
+      summary: Get all culture types
+      description: Retrieves a list of all culture types in the system.
+      responses:
+        '200':
+          description: List of culture types retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CultureType'
+components:
+  schemas:
+    CultureType:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          example: Technology
+    CultureTypeInput:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Technology
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+```
+
+# Tests
+ These tests cover the various scenarios and functionalities of the Culture Matching application, including creating applicants and companies, retrieving lists of applicants and companies, matching applicants based on culture type, and managing culture types.
+
+
+### ApplicantsController Tests
+
+#### `POST #create`
+
+- Context: with valid parameters
+  - Description: Creates a new applicant with valid parameters.
+  - Request Body:
+    ```json
+    {
+      "applicant": {
+        "first_name": "John",
+        "last_name": "Doe",
+        "culture_type": "Type A"
+      }
+    }
+    ```
+  - Test Cases:
+    - It should create a new applicant:
+      - Description: Verifies that a new applicant is created in the system.
+      - Expected Result: The count of the `Applicant` model should increase by 1.
+    - It should return HTTP status 201 (Created):
+      - Description: Verifies that the response has an HTTP status of 201 (Created).
+      - Expected Result: The response status should be 201.
+    - It should return the created applicant as JSON:
+      - Description: Verifies that the response contains the created applicant as JSON.
+      - Expected Result:
+        - The response content type should be 'application/json; charset=utf-8'.
+        - The response body should include the applicant's details: `first_name`, `last_name`, and `culture_type`.
+
+- Context: with invalid parameters
+  - Description: Attempts to create a new applicant with invalid parameters.
+  - Request Body:
+    ```json
+    {
+      "applicant": {
+        "first_name": "",
+        "last_name": "Doe",
+        "culture_type": "Type A"
+      }
+    }
+    ```
+  - Test Cases:
+    - It should not create a new applicant:
+      - Description: Verifies
+
+ that a new applicant is not created when the parameters are invalid.
+      - Expected Result: The count of the `Applicant` model should remain unchanged.
+    - It should return HTTP status 422 (Unprocessable Entity):
+      - Description: Verifies that the response has an HTTP status of 422 (Unprocessable Entity).
+      - Expected Result: The response status should be 422.
+    - It should return the errors as JSON:
+      - Description: Verifies that the response contains the errors as JSON.
+      - Expected Result:
+        - The response content type should be 'application/json; charset=utf-8'.
+        - The response body should include the validation error for the `first_name` field.
+
+#### `GET #index`
+
+- Description: Retrieves a list of all applicants.
+- Test Case:
+  - It should return all applicants:
+    - Description: Verifies that all applicants are returned in the response.
+    - Expected Result:
+      - The response content type should be 'application/json; charset=utf-8'.
+      - The response body should contain the JSON representation of all applicants.
+
+#### `GET #matched`
+
+- Description: Retrieves applicants with matching culture type.
+- Request Parameters:
+  - culture_type: The culture type to match (e.g., 'Type A').
+- Test Case:
+  - It should return applicants with matching culture type:
+    - Description: Verifies that applicants with the specified culture type are returned in the response.
+    - Expected Result:
+      - The response content type should be 'application/json; charset=utf-8'.
+      - The response body should contain the JSON representation of applicants whose culture type matches the requested culture type. Only the necessary attributes, such as `culture_type`, should be included in the response.
+
+### CompaniesController Tests
+
+#### `POST #create`
+
+- Context: with valid parameters
+  - Description: Creates a new company with valid parameters.
+  - Request Body:
+    ```json
+    {
+      "company": {
+        "name": "Test Company",
+        "culture_type": "Type A"
+      }
+    }
+    ```
+  - Test Cases:
+    - It should create a new company:
+      - Description: Verifies that a new company is created in the system.
+      - Expected Result: The count of the `Company` model should increase by 1.
+    - It should return the created company as JSON:
+      - Description: Verifies that the response contains the created company as JSON.
+      - Expected Result:
+        - The response should have an HTTP status of 201 (Created).
+        - The response content type should be 'application/json; charset=utf-8'.
+
+- Context: with invalid parameters
+  - Description: Attempts to create a new company with invalid parameters.
+  - Request Body:
+    ```json
+    {
+      "company": {
+        "name": "",
+        "culture_type": "Type A"
+      }
+    }
+    ```
+  - Test Cases:
+    - It should not create a new company:
+      - Description: Verifies that a new company is not created when the parameters are invalid.
+      - Expected Result: The count of the `Company` model should remain unchanged.
+    - It should return the errors as JSON:
+      - Description: Verifies that the response contains the errors as JSON.
+      - Expected Result:
+        - The response should have an HTTP status of 422 (Unprocessable Entity).
+        - The response content type should be 'application/json; charset=utf-8'.
+
+#### `GET #index`
+
+- Description: Retrieves a list of all companies.
+- Test Case:
+  - It should return all companies:
+    - Description: Verifies that all companies are returned in the response.
+    - Expected Result:
+      - The response should have an HTTP status of
+
+ 200 (OK).
+      - The response content type should be 'application/json; charset=utf-8'.
+      - The response body should contain the JSON representation of all companies.
+
+### CultureTypesController Tests
+
+#### `POST #create`
+
+- Context: with valid parameters
+  - Description: Creates a new culture type with valid parameters.
+  - Request Body:
+    ```json
+    {
+      "culture_type": {
+        "name": "Test Culture Type"
+      }
+    }
+    ```
+  - Test Cases:
+    - It should create a new culture type:
+      - Description: Verifies that a new culture type is created in the system.
+      - Expected Result:
+        - The response should have an HTTP status of 201 (Created).
+        - The response content type should be 'application/json; charset=utf-8'.
+        - The response body should contain the JSON representation of the created culture type.
+
+- Context: with invalid parameters
+  - Description: Attempts to create a new culture type with invalid parameters.
+  - Request Body:
+    ```json
+    {
+      "culture_type": {
+        "name": ""
+      }
+    }
+    ```
+  - Test Cases:
+    - It should not create a new culture type:
+      - Description: Verifies that a new culture type is not created when the parameters are invalid.
+      - Expected Result:
+        - The response should have an HTTP status of 422 (Unprocessable Entity).
+        - The response content type should be 'application/json; charset=utf-8'.
+        - The response body should contain the validation error for the `name` field.
+
+#### `GET #index`
+
+- Description: Retrieves a list of all culture types.
+- Test Case:
+  - It should return all culture types:
+    - Description: Verifies that all culture types are returned in the response.
+    - Expected Result:
+      - The response should have an HTTP status of 200 (OK).
+      - The response content type should be 'application/json; charset=utf-8'.
+      - The response body should contain the JSON representation of all culture types.
+
+### Applicant Model Tests
+
+#### Validations
+
+- Description: Tests the validations of the `Applicant` model.
+- Test Cases:
+  - It should validate the presence of first_name:
+    - Description: Verifies that an applicant is not valid without a `first_name`.
+    - Expected Result:
+      - The applicant should not be valid.
+      - The `first_name` field should have a validation error indicating that it can't be blank.
+  - It should validate the presence of last_name:
+    - Description: Verifies that an applicant is not valid without a `last_name`.
+    - Expected Result:
+      - The applicant should not be valid.
+      - The `last_name` field should have a validation error indicating that it can't be blank.
+  - It should validate the presence of culture_type:
+    - Description: Verifies that an applicant is not valid without a `culture_type`.
+    - Expected Result:
+      - The applicant should not be valid.
+      - The `culture_type` field should have a validation error indicating that it can't be blank.
+
+#### Attributes
+
+- Description: Tests the attributes of the `Applicant` model.
+- Test Case:
+  - It should have valid attributes:
+    - Description: Verifies that an applicant has the expected attributes.
+    - Expected Result:
+      - The applicant should be valid.
+      - The `first_name`, `last_name`, and `culture_type` fields should have the expected values.
+
+### Company Model Tests
+
+#### Validations
+
+- Description: Tests the validations of the `Company` model.
+- Test Case:
+  - It should validate the presence of name:
+    - Description: Verifies that a company
+
+ is not valid without a `name`.
+    - Expected Result:
+      - The company should not be valid.
+      - The `name` field should have a validation error indicating that it can't be blank.
+
+#### Attributes
+
+- Description: Tests the attributes of the `Company` model.
+- Test Case:
+  - It should have valid attributes:
+    - Description: Verifies that a company has the expected attributes.
+    - Expected Result:
+      - The company should be valid.
+      - The `name` and `culture_type` fields should have the expected values.
+
+### CultureType Model Tests
+
+#### Validations
+
+- Description: Tests the validations of the `CultureType` model.
+- Test Case:
+  - It should validate the presence of name:
+    - Description: Verifies that a culture type is not valid without a `name`.
+    - Expected Result:
+      - The culture type should not be valid.
+      - The `name` field should have a validation error indicating that it can't be blank.
+
+#### Attributes
+
+- Description: Tests the attributes of the `CultureType` model.
+- Test Case:
+  - It should have valid attributes:
+    - Description: Verifies that a culture type has the expected attributes.
+    - Expected Result:
+      - The culture type should be valid.
+      - The `name` field should have the expected value.
+
+
+
