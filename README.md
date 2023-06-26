@@ -17,7 +17,7 @@ To run the Culture Matching application, follow the instructions below:
 1. Clone the GitHub repository for the solution:
 
    ```
-   git clone <repository_url>
+   git clone https://github.com/shamskilani/cultural_test
    ```
 
 2. Navigate to the project directory:
