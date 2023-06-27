@@ -96,7 +96,7 @@ The server will start running on `http://localhost:3000`.
 ### Running the Tests
 
 ```
-rspec sspec/
+rspec spec/
 ```
 ## Dockerization:
 - I have dockerized the solution, providing a convenient way to package and deploy the application with its dependencies.
