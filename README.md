@@ -98,6 +98,18 @@ The server will start running on `http://localhost:3000`.
 ```
 rspec sspec/
 ```
+## Dockerization:
+- I have dockerized the solution, providing a convenient way to package and deploy the application with its dependencies.
+- To access the Docker image, please download it from the following link:  https://drive.google.com/file/d/17iUHa3Xe3Ne0gKC12RHSQVKwJBt4CVI_/view?usp=sharing
+- Once downloaded, you can load the image using the following command:
+```
+docker load -i empion.tar
+```
+- The container can be run with the following command:
+```
+docker run --name empion_c -p 8080:80 -p 3000:3000 -d -t -v /usr/src/empion/cultural_test/:/app empion /bin/bash -c "/usr/src/empion/cultural_test/startup.sh"
+```
+- Please note that it may take approximately one minute for the container to start and run all services. Afterward, you can access the application by opening a browser and navigating to "localhost:8080".
 
 ## API Endpoints
 
