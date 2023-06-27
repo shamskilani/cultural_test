@@ -2,6 +2,52 @@
 
 This is the documentation for the Backend API solution for the Culture Matching application. The solution is implemented using Ruby on Rails framework as an API, with PostgreSQL as the database. The API follows REST architecture principles and is documented using OpenAPI. The solution meets all the specified requirements and has been properly tested, documented, and linted.
 
+#### Note
+README.md - API Design for Culture Type Matching
+
+In the development process of the Empion Culture Matcher project, an API has been designed to facilitate the matching of applicants based on their culture type. This API eliminates the need for a separate Match model and simplifies the architecture while achieving the desired functionality.
+
+The API is designed to accept an input parameter, culture_type, which represents the desired culture type for matching applicants. By calling this API with the appropriate culture type value, the API will query the applicants table and retrieve the matching applicants.
+
+Here's an overview of the API design:
+
+Endpoint: `/api/v1/applicants/matched/`
+Method: GET
+
+Request Parameters:
+- culture_type: string (required) - Represents the desired culture type for matching applicants.
+
+Response:
+The API responds with a JSON array of matched applicants based on the provided culture_type.
+
+Example Request:
+```
+GET /api/v1/applicants/matched/culture_type
+```
+
+Example Response:
+```json
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "culture_type": "teamwork"
+  },
+  {
+    "id": 2,
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "culture_type": "teamwork"
+  }
+]
+```
+
+With this API design, by providing the desired culture type as a query parameter, the API will query the applicants table and retrieve the matching applicants. This approach effectively finds the matches without the need for a separate Match model.
+
+Please note that this API design adheres to the principles of REST architecture and follows the general requirements specified for the Empion Culture Matcher project.
+
+
 ## Getting Started
 
 To run the Culture Matching application, follow the instructions below:
