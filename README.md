@@ -3,7 +3,6 @@
 This is the documentation for the Backend API solution for the Culture Matching application. The solution is implemented using Ruby on Rails framework as an API, with PostgreSQL as the database. The API follows REST architecture principles and is documented using OpenAPI. The solution meets all the specified requirements and has been properly tested, documented, and linted.
 
 #### Note
-README.md - API Design for Culture Type Matching
 
 In the development process of the Empion Culture Matcher project, an API has been designed to facilitate the matching of applicants based on their culture type. This API eliminates the need for a separate Match model and simplifies the architecture while achieving the desired functionality.
 
